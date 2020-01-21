@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:contest="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+    <!--基于注解-->
+
+    <!--将注解自动扫描到IOC容器中-->
+    <contest:component-scan base-package="com.imooc.web"></contest:component-scan>
+
+
+    <!--拦截器的注册-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--<mvc:mapping path="/user/serch"/>-->
+            <!--<mvc:mapping path="/user/updatePwd"/>-->
+            <!--<mvc:mapping path="/user/updatePic"/>-->
+            <!--通配符匹配user下面的那一级-->
+            <!--<mvc:mapping path="/user/*"></mvc:mapping>-->
+            <!--通配符匹配user下面的所有级-->
+            <mvc:mapping path="/user/**"></mvc:mapping>
+            <!--从通配符去掉个别不需要拦截的类（exclude-mapping）-->
+            <mvc:exclude-mapping path="/user/updatePic"></mvc:exclude-mapping>
+
+            <bean class="com.imooc.core.Logininterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+
+
+    <!--配置视图器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--配置前缀-->
+        <property name="prefix" value="/WEB-INF/pages/"></property>
+        <!--配置后缀-->
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+
+</beans>
